@@ -5,6 +5,16 @@
         <div class="row">
             <div class="col-md-6">
                 <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
+                {{#userName}} <!-- userName 이 존재하면 -->
+                    Logged in as: <span id="user">{{userName}}</span>
+                    <!-- 스프링시큐리티에서 기본으로 제공하는 로그아웃 url -->
+                    <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+                {{/userName}}
+                {{^userName}} <!-- userName 이 존재하지 않으면 -->
+                    <!-- 스프링시큐리티에서 기본으로 제공하는 로그인 url -->
+                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+                    <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>
+                {{/userName}}
             </div>
         </div>
 
