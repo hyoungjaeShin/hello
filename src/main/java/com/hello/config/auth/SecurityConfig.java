@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @RequiredArgsConstructor
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -26,7 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             "/css/**",
                             "/images/**",
                             "/js/**",
-                            "/h2-console/**").permitAll()
+                            "/h2-console/**",
+                            "/profile").permitAll()
                     .antMatchers("/api/v1/**").hasRole(Role.USER.name())
                     .anyRequest().authenticated()
                 

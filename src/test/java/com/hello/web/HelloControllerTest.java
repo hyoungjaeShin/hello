@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -15,15 +18,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = HelloController.class)
+//@WebMvcTest(controllers = HelloController.class)
+@WebMvcTest(controllers = HelloController.class,
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
+        })
 public class HelloControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
 
-    //@WithMockUser(roles="USER")
+
     @Test
+    @WithMockUser(roles="USER")
     public void hello_test() throws Exception {
         String hello = "hello";
 
@@ -32,8 +40,8 @@ public class HelloControllerTest {
                 .andExpect(content().string(hello));
     }
 
-    //@WithMockUser(roles="USER")
     @Test
+    @WithMockUser(roles="USER")
     public void helloDto_test() throws Exception {
         String name = "shj";
         int amount = 2000;
